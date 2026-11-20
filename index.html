@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ComptaFlow | Accounting, in flow</title>
+<style>
+  :root {
+    box-sizing: border-box;
+    --teal-900: #04342C;
+    --teal-700: #0F6E56;
+    --teal-500: #1D9E75;
+    --teal-100: #9FE1CB;
+    --teal-50: #E1F5EE;
+    --ink: #1F2A27;
+    --muted: #5F5E5A;
+    --bg: #FFFFFF;
+    --line: #E4E7E5;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  header {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    background: rgba(255,255,255,0.95);
+    border-bottom: 1px solid var(--line);
+    z-index: 10;
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; font-size: 20px; color: var(--teal-700); }
+  .nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
+  .nav ul a { text-decoration: none; color: var(--muted); font-size: 15px; }
+  .nav ul a:hover { color: var(--teal-700); }
+  .btn {
+    display: inline-block; text-decoration: none; font-weight: 600; font-size: 15px;
+    padding: 12px 22px; border-radius: 10px; border: 2px solid var(--teal-700);
+  }
+  .btn-primary { background: var(--teal-700); color: #fff; }
+  .btn-primary:hover { background: var(--teal-900); border-color: var(--teal-900); }
+  .btn-ghost { color: var(--teal-700); background: transparent; }
+  .btn-ghost:hover { background: var(--teal-50); }
+
+  .hero { padding: 96px 0 80px; background: linear-gradient(180deg, var(--teal-50), #fff); }
+  .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
+  .eyebrow { color: var(--teal-500); font-weight: 600; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 16px; }
+  h1 { font-size: clamp(36px, 5vw, 56px); line-height: 1.1; margin: 0 0 20px; color: var(--teal-900); letter-spacing: -0.02em; }
+  .lead { font-size: 19px; color: var(--muted); margin: 0 0 32px; max-width: 520px; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-card {
+    background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 28px;
+    box-shadow: 0 10px 30px rgba(15,110,86,0.08);
+  }
+  .hero-card h3 { margin: 0 0 16px; font-size: 16px; color: var(--muted); font-weight: 500; }
+  .row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .row:last-child { border-bottom: none; }
+  .row span:last-child { font-weight: 600; }
+  .pos { color: var(--teal-500); }
+  .total { margin-top: 12px; padding: 16px; background: var(--teal-50); border-radius: 10px; display: flex; justify-content: space-between; font-weight: 600; color: var(--teal-900); }
+
+  section { padding: 88px 0; }
+  .section-head { text-align: center; max-width: 640px; margin: 0 auto 56px; }
+  h2 { font-size: clamp(28px, 3.5vw, 38px); margin: 0 0 14px; color: var(--teal-900); letter-spacing: -0.01em; }
+  .section-head p { color: var(--muted); font-size: 18px; margin: 0; }
+
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .feature { border: 1px solid var(--line); border-radius: 14px; padding: 28px; }
+  .icon { width: 44px; height: 44px; border-radius: 10px; background: var(--teal-50); color: var(--teal-700); display: grid; place-items: center; font-weight: 700; margin-bottom: 18px; }
+  .feature h3 { margin: 0 0 8px; font-size: 19px; color: var(--teal-900); }
+  .feature p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  .steps { background: var(--teal-900); color: #fff; }
+  .steps h2 { color: #fff; }
+  .steps .section-head p { color: var(--teal-100); }
+  .step-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .step-num { font-size: 14px; font-weight: 700; color: var(--teal-100); margin-bottom: 10px; }
+  .step h3 { margin: 0 0 8px; font-size: 19px; }
+  .step p { margin: 0; color: var(--teal-100); font-size: 15px; }
+
+  .pricing { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 760px; margin: 0 auto; }
+  .plan { border: 1px solid var(--line); border-radius: 16px; padding: 32px; }
+  .plan.featured { border: 2px solid var(--teal-700); }
+  .plan h3 { margin: 0 0 6px; font-size: 20px; color: var(--teal-900); }
+  .price { font-size: 36px; font-weight: 700; margin: 8px 0 18px; color: var(--ink); }
+  .price small { font-size: 15px; font-weight: 400; color: var(--muted); }
+  .plan ul { list-style: none; padding: 0; margin: 0 0 24px; }
+  .plan li { padding: 6px 0; font-size: 15px; color: var(--muted); }
+  .plan li::before { content: "✓  "; color: var(--teal-500); font-weight: 700; }
+  .plan .btn { width: 100%; text-align: center; }
+
+  .final { text-align: center; background: var(--teal-50); padding: 80px 0; }
+  .final p { color: var(--muted); font-size: 18px; margin: 0 0 28px; }
+
+  footer { border-top: 1px solid var(--line); padding: 32px 0; color: var(--muted); font-size: 14px; }
+  .foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .foot nav { display: flex; gap: 20px; }
+  .foot a { text-decoration: none; }
+
+  @media (max-width: 860px) {
+    .hero-grid, .features, .step-grid, .pricing { grid-template-columns: 1fr; }
+    .nav ul { display: none; }
+    .hero { padding: 64px 0; }
+    section { padding: 64px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="ComptaFlow home">
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="#0F6E56"/>
+        <path d="M19.5 11.5 A7 7 0 1 0 19.5 20.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        <line x1="11" y1="16" x2="19" y2="16" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      ComptaFlow
+    </a>
+    <ul>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <div style="display:flex;gap:10px;">
+      <a class="btn btn-ghost" href="#">Log in</a>
+      <a class="btn btn-primary" href="#">Start free</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Accounting, in flow</p>
+        <h1>Your books, always up to date.</h1>
+        <p class="lead">ComptaFlow connects your bank, captures your invoices, and keeps your accounts reconciled, so you can focus on running your business.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#">Start free trial</a>
+          <a class="btn btn-ghost" href="#how">See how it works</a>
+        </div>
+      </div>
+      <div class="hero-card" aria-label="Example dashboard">
+        <h3>This month at a glance</h3>
+        <div class="row"><span>Revenue</span><span class="pos">€24,380</span></div>
+        <div class="row"><span>Expenses</span><span>€11,215</span></div>
+        <div class="row"><span>Invoices awaiting payment</span><span>6</span></div>
+        <div class="row"><span>Transactions to reconcile</span><span>3</span></div>
+        <div class="total"><span>Net profit</span><span>€13,165</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Everything your books need</h2>
+        <p>One place for bookkeeping, invoicing, and reporting, built for small businesses and their accountants.</p>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <div class="icon">⇄</div>
+          <h3>Bank sync</h3>
+          <p>Connect your bank accounts and every transaction flows in automatically, categorized and ready to review.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">✎</div>
+          <h3>Smart invoicing</h3>
+          <p>Create professional invoices in seconds, send them by email, and get paid faster with payment reminders.</p>
+        </div>
+        <div class="feature">
+          <div class="icon">▤</div>
+          <h3>Ready-made reports</h3>
+          <p>Profit and loss, balance sheet, VAT summaries, and cash flow, updated in real time and ready for your accountant.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="steps" id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Up and running in minutes</h2>
+        <p>No accounting background needed.</p>
+      </div>
+      <div class="step-grid">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3>Connect your bank</h3>
+          <p>Link your accounts securely in a few clicks. Your history imports automatically.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3>Review and confirm</h3>
+          <p>ComptaFlow suggests categories for each transaction. Confirm them or adjust in a click.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3>Share and file</h3>
+          <p>Invite your accountant, export reports, and keep your records audit-ready all year.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Simple, transparent pricing</h2>
+        <p>Start free. Upgrade when your business grows.</p>
+      </div>
+      <div class="pricing">
+        <div class="plan">
+          <h3>Starter</h3>
+          <div class="price">€0 <small>/ month</small></div>
+          <ul>
+            <li>Up to 50 transactions a month</li>
+            <li>Bank sync for 1 account</li>
+            <li>Basic reports</li>
+          </ul>
+          <a class="btn btn-ghost" href="#">Get started</a>
+        </div>
+        <div class="plan featured">
+          <h3>Pro</h3>
+          <div class="price">€29 <small>/ month</small></div>
+          <ul>
+            <li>Unlimited transactions</li>
+            <li>Unlimited bank accounts</li>
+            <li>Invoicing and payment reminders</li>
+            <li>VAT reports and accountant access</li>
+          </ul>
+          <a class="btn btn-primary" href="#">Start 30-day trial</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="final">
+    <div class="wrap">
+      <h2>Ready to get your books in flow?</h2>
+      <p>Join ComptaFlow and spend less time on bookkeeping.</p>
+      <a class="btn btn-primary" href="#">Start free trial</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 ComptaFlow. All rights reserved.</span>
+    <nav>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
